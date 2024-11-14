@@ -1,175 +1,78 @@
 <?php
-session_start(); 
-require_once "../modelos/Usuario.php";
+session_start();
+require_once "../controller/userController.php";
 
-$usuario=new Usuario();
+// Creamos una instancia del controlador
+$usuarioController = new UsuarioController();
 
-$idusuario=isset($_POST["idusuario"])? limpiarCadena($_POST["idusuario"]):"";
-$nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-$tipo_documento=isset($_POST["tipo_documento"])? limpiarCadena($_POST["tipo_documento"]):"";
-$num_documento=isset($_POST["num_documento"])? limpiarCadena($_POST["num_documento"]):"";
-$direccion=isset($_POST["direccion"])? limpiarCadena($_POST["direccion"]):"";
-$telefono=isset($_POST["telefono"])? limpiarCadena($_POST["telefono"]):"";
-$email=isset($_POST["email"])? limpiarCadena($_POST["email"]):"";
-$cargo=isset($_POST["cargo"])? limpiarCadena($_POST["cargo"]):"";
-$login=isset($_POST["login"])? limpiarCadena($_POST["login"]):"";
-$clave=isset($_POST["clave"])? limpiarCadena($_POST["clave"]):"";
-$imagen=isset($_POST["imagen"])? limpiarCadena($_POST["imagen"]):"";
+// Captura el valor de la operación solicitada en la URL
+$op = isset($_GET['op']) ? $_GET['op'] : '';
 
-switch ($_GET["op"]){
-	case 'guardaryeditar':
+switch ($op) {
+    case 'verificar':
+        // Obtenemos los datos de login y password enviados por AJAX
+        $login = isset($_POST['logina']) ? $_POST['logina'] : '';
+        $password = isset($_POST['password']) ? $_POST['password'] : '';
 
-		if (!file_exists($_FILES['imagen']['tmp_name']) || !is_uploaded_file($_FILES['imagen']['tmp_name']))
-		{
-			$imagen=$_POST["imagenactual"];
-		}
-		else 
-		{
-			$ext = explode(".", $_FILES["imagen"]["name"]);
-			if ($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png")
-			{
-				$imagen = round(microtime(true)) . '.' . end($ext);
-				move_uploaded_file($_FILES["imagen"]["tmp_name"], "../files/usuarios/" . $imagen);
-			}
-		}
-		//Hash SHA256 en la contraseña
-		$clavehash=hash("SHA256",$clave);
+        // Llamamos al método verificarUsuario en el controlador
+        $result = $usuarioController->verificarUsuario($login, $password);
 
-		if (empty($idusuario)){
-			$rspta=$usuario->insertar($nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email,$cargo,$login,$clavehash,$imagen,$_POST['permiso']);
-			echo $rspta ? "Usuario registrado" : "No se pudieron registrar todos los datos del usuario";
-		}
-		else {
-			$rspta=$usuario->editar($idusuario,$nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email,$cargo,$login,$clavehash,$imagen,$_POST['permiso']);
-			echo $rspta ? "Usuario actualizado" : "Usuario no se pudo actualizar";
-		}
-	break;
+        if ($result) {
+            // Si el resultado es válido, lo retornamos como JSON para procesar en la vista
+            echo json_encode($result);
+        } else {
+            // Si no existe el usuario, devolvemos "null" para que el front-end lo interprete
+            echo json_encode(null);
+        }
+        break;
 
-	case 'desactivar':
-		$rspta=$usuario->desactivar($idusuario);
- 		echo $rspta ? "Usuario Desactivado" : "Usuario no se puede desactivar";
-	break;
+    case 'guardaryeditar':
+        // Aquí se manejará el guardado y edición de un usuario
+        // Recibimos los datos del formulario
+        $idusuario = isset($_POST['idusuario']) ? $_POST['idusuario'] : '';
+        $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : '';
+        $tipo_documento = isset($_POST['tipo_documento']) ? $_POST['tipo_documento'] : '';
+        $num_documento = isset($_POST['num_documento']) ? $_POST['num_documento'] : '';
+        $direccion = isset($_POST['direccion']) ? $_POST['direccion'] : '';
+        $telefono = isset($_POST['telefono']) ? $_POST['telefono'] : '';
+        $email = isset($_POST['email']) ? $_POST['email'] : '';
+        $cargo = isset($_POST['cargo']) ? $_POST['cargo'] : '';
+        $login = isset($_POST['login']) ? $_POST['login'] : '';
+        $clave = isset($_POST['clave']) ? $_POST['clave'] : '';
+        $imagen = isset($_POST['imagen']) ? $_POST['imagen'] : '';
 
-	case 'activar':
-		$rspta=$usuario->activar($idusuario);
- 		echo $rspta ? "Usuario activado" : "Usuario no se puede activar";
-	break;
+        // Llamamos al método de guardar o editar usuario en el controlador
+        $response = $usuarioController->guardarEditarUsuario(
+            $idusuario, $nombre, $tipo_documento, $num_documento, $direccion, $telefono, $email, $cargo, $login, $clave, $imagen, $_POST['permiso']
+        );
 
-	case 'mostrar':
-		$rspta=$usuario->mostrar($idusuario);
- 		//Codificar el resultado utilizando json
- 		echo json_encode($rspta);
-	break;
+        echo $response;
+        break;
 
-	case 'listar':
-		$rspta=$usuario->listar();
- 		//Vamos a declarar un array
- 		$data= Array();
+    case 'desactivar':
+        // Desactivamos un usuario
+        $idusuario = isset($_POST['idusuario']) ? $_POST['idusuario'] : '';
+        $response = $usuarioController->desactivarUsuario($idusuario);
+        echo $response;
+        break;
 
- 		while ($reg=$rspta->fetch_object()){
- 			$data[]=array(
- 				"0"=>($reg->condicion)?'<button class="btn btn-warning" onclick="mostrar('.$reg->idusuario.')"><i class="fa fa-pencil"></i></button>'.
- 					'<button class="btn btn-danger" onclick="desactivar('.$reg->idusuario.')"><i class="fa fa-close"></i></button>':
- 					'<button class="btn btn-warning" onclick="mostrar('.$reg->idusuario.')"><i class="fa fa-pencil"></i></button>'.
- 					'<button class="btn btn-primary" onclick="activar('.$reg->idusuario.')"><i class="fa fa-check"></i></button>',
- 				"1"=>$reg->nombre,
- 				"2"=>$reg->tipo_documento,
- 				"3"=>$reg->num_documento,
- 				"4"=>$reg->telefono,
- 				"5"=>$reg->email,
- 				"6"=>$reg->login,
- 				"7"=>"<img src='../files/usuarios/".$reg->imagen."' height='50px' width='50px' >",
- 				"8"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
- 				'<span class="label bg-red">Desactivado</span>'
- 				);
- 		}
- 		$results = array(
- 			"sEcho"=>1, //Información para el datatables
- 			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
- 			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
- 			"aaData"=>$data);
- 		echo json_encode($results);
+    case 'activar':
+        // Activamos un usuario
+        $idusuario = isset($_POST['idusuario']) ? $_POST['idusuario'] : '';
+        $response = $usuarioController->activarUsuario($idusuario);
+        echo $response;
+        break;
 
-	break;
+    case 'listar':
+        // Listamos los usuarios
+        $response = $usuarioController->listarUsuarios();
+        echo json_encode($response);
+        break;
 
-	case 'permisos':
-		//Obtenemos todos los permisos de la tabla permisos
-		require_once "../modelos/Permiso.php";
-		$permiso = new Permiso();
-		$rspta = $permiso->listar();
+    // Otros casos de operación pueden ir aquí...
 
-		//Obtener los permisos asignados al usuario
-		$id=$_GET['id'];
-		$marcados = $usuario->listarmarcados($id);
-		//Declaramos el array para almacenar todos los permisos marcados
-		$valores=array();
-
-		//Almacenar los permisos asignados al usuario en el array
-		while ($per = $marcados->fetch_object())
-			{
-				array_push($valores, $per->idpermiso);
-			}
-
-		//Mostramos la lista de permisos en la vista y si están o no marcados
-		while ($reg = $rspta->fetch_object())
-				{
-					$sw=in_array($reg->idpermiso,$valores)?'checked':'';
-					echo '<li> <input type="checkbox" '.$sw.'  name="permiso[]" value="'.$reg->idpermiso.'">'.$reg->nombre.'</li>';
-				}
-	break;
-
-	case 'verificar':
-		$logina=$_POST['logina'];
-	    $clavea=$_POST['password'];
-
-	    //Hash SHA256 en la contraseña
-		$clavehash=hash("SHA256",$clavea);
-
-		$rspta=$usuario->verificar($logina, $clavehash);
-
-		$fetch=$rspta->fetch_object();
-
-		if (isset($fetch))
-	    {
-	        //Declaramos las variables de sesión
-	        $_SESSION['idusuario']=$fetch->idusuario;
-	        $_SESSION['nombre']=$fetch->nombre;
-	        $_SESSION['imagen']=$fetch->imagen;
-	        $_SESSION['login']=$fetch->login;
-
-	        //Obtenemos los permisos del usuario
-	    	$marcados = $usuario->listarmarcados($fetch->idusuario);
-
-	    	//Declaramos el array para almacenar todos los permisos marcados
-			$valores=array();
-
-			//Almacenamos los permisos marcados en el array
-			while ($per = $marcados->fetch_object())
-				{
-					array_push($valores, $per->idpermiso);
-				}
-
-			//Determinamos los accesos del usuario
-			in_array(1,$valores)?$_SESSION['escritorio']=1:$_SESSION['escritorio']=0;
-			in_array(2,$valores)?$_SESSION['almacen']=1:$_SESSION['almacen']=0;
-			in_array(3,$valores)?$_SESSION['compras']=1:$_SESSION['compras']=0;
-			in_array(4,$valores)?$_SESSION['ventas']=1:$_SESSION['ventas']=0;
-			in_array(5,$valores)?$_SESSION['acceso']=1:$_SESSION['acceso']=0;
-			in_array(6,$valores)?$_SESSION['consultac']=1:$_SESSION['consultac']=0;
-			in_array(7,$valores)?$_SESSION['consultav']=1:$_SESSION['consultav']=0;
-
-	    }
-	    echo json_encode($fetch);
-	break;
-
-	case 'salir':
-		//Limpiamos las variables de sesión   
-        session_unset();
-        //Destruìmos la sesión
-        session_destroy();
-        //Redireccionamos al login
-        header("Location: ../index.php");
-
-	break;
+    default:
+        echo "Operación no válida";
+        break;
 }
 ?>

@@ -1,5 +1,6 @@
 <?php 
 // Incluímos inicialmente la conexión a la base de datos
+// Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
 
 class Consultas
@@ -50,25 +51,24 @@ class Consultas
 
     public function comprasultimos_10dias()
     {
-        // Se corrige la agrupación por fecha para evitar el error con GROUP BY
-        $sql = "SELECT CONCAT(DAY(fecha_hora), '-', MONTH(fecha_hora)) as fecha, SUM(total_compra) as total 
+        $sql = "SELECT DATE_FORMAT(fecha_hora, '%d-%m') as fecha, SUM(total_compra) as total 
                 FROM ingreso 
-                GROUP BY YEAR(fecha_hora), MONTH(fecha_hora), DAY(fecha_hora) 
-                ORDER BY YEAR(fecha_hora) DESC, MONTH(fecha_hora) DESC, DAY(fecha_hora) DESC 
-                LIMIT 0,10";
+                GROUP BY DATE(fecha_hora) 
+                ORDER BY DATE(fecha_hora) DESC 
+                LIMIT 10";
         return ejecutarConsulta($sql);
     }
 
     public function ventasultimos_12meses()
     {
-        // Se mantiene la estructura de agrupación por mes y año para evitar el error con GROUP BY
-        $sql = "SELECT DATE_FORMAT(fecha_hora, '%M') as fecha, SUM(total_venta) as total 
+        $sql = "SELECT DATE_FORMAT(fecha_hora, '%Y-%m') as fecha, SUM(total_venta) as total 
                 FROM venta 
                 GROUP BY YEAR(fecha_hora), MONTH(fecha_hora) 
                 ORDER BY YEAR(fecha_hora) DESC, MONTH(fecha_hora) DESC 
-                LIMIT 0,10";
+                LIMIT 12";
         return ejecutarConsulta($sql);
     }
 }
+
 
 ?>

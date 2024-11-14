@@ -1,11 +1,20 @@
 $("#frmAcceso").on('submit', function(e) {
     e.preventDefault();
     const logina = $("#logina").val();
-    const password = $("#password").val();
+    const clavea = $("#password").val();
 
-    $.post("../ajax/usuario.php?op=verificar", { "logina": logina, "password": password }, function(data) {
+    $.post("../ajax/usuario.php?op=verificar", { "logina": logina, "password": clavea }, function(data) {
         if (data !== "null") {
-            $(location).attr("href", "escritorio.php");
+            Swal.fire({
+                title: '¡Bienvenido!',
+                text: 'Has ingresado correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Continuar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(location).attr("href", "escritorio.php");
+                }
+            });
         } else {
             Swal.fire({
                 title: 'Error',
