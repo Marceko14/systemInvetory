@@ -1,3 +1,7 @@
+<?php
+if (strlen(session_id()) < 1) 
+  session_start();
+?>
 <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
@@ -19,7 +23,7 @@
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="escritorio.php">
                         <!-- Logo icon -->
                         <b class="logo-icon ps-2">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -67,10 +71,7 @@
                         <!-- create new -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="d-none d-md-block">Create New <i class="fa fa-angle-down"></i></span>
-                                <span class="d-block d-md-none"><i class="fa fa-plus"></i></span>
-                            </a>
+
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Action</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -81,13 +82,7 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-                        <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark"
-                                href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <form class="app-search position-absolute">
-                                <input type="text" class="form-control" placeholder="Search &amp; enter"> <a
-                                    class="srh-btn"><i class="ti-close"></i></a>
-                            </form>
-                        </li>
+
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
@@ -206,3 +201,104 @@
                 </div>
             </nav>
         </header>
+
+        <aside class="main-sidebar" data-sidebarbg="skin5">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <section class="sidebar">
+            <ul class="sidebar-menu" id="sidebarnav" class="pt-4">
+                <li class="header"></li>
+
+                <?php if ($_SESSION['escritorio'] == 1) : ?>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="escritorio.php" aria-expanded="false">
+                            <i class="fa fa-dashboard"></i><span class="hide-menu">Escritorio</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($_SESSION['almacen'] == 1) : ?>
+                    <li class="sidebar-item has-arrow">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                            <i class="fa fa-boxes"></i><span class="hide-menu">Almacén</span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse first-level">
+                            <li class="sidebar-item"><a href="articulo.php" class="sidebar-link"><i class="fa fa-box-open"></i><span class="hide-menu">Artículos</span></a></li>
+                            <li class="sidebar-item"><a href="categoria.php" class="sidebar-link"><i class="fa fa-tags"></i><span class="hide-menu">Categorías</span></a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($_SESSION['compras'] == 1) : ?>
+                    <li class="sidebar-item has-arrow">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                            <i class="fa fa-clipboard-list"></i><span class="hide-menu">Compras</span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse first-level">
+                            <li class="sidebar-item"><a href="ingreso.php" class="sidebar-link"><i class="fa fa-plus-square"></i><span class="hide-menu">Ingresos</span></a></li>
+                            <li class="sidebar-item"><a href="proveedor.php" class="sidebar-link"><i class="fa fa-truck"></i><span class="hide-menu">Proveedores</span></a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($_SESSION['ventas'] == 1) : ?>
+                    <li class="sidebar-item has-arrow">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                            <i class="fa fa-credit-card"></i><span class="hide-menu">Ventas</span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse first-level">
+                            <li class="sidebar-item"><a href="venta.php" class="sidebar-link"><i class="fa fa-receipt"></i><span class="hide-menu">Ventas</span></a></li>
+                            <li class="sidebar-item"><a href="cliente.php" class="sidebar-link"><i class="fa fa-users"></i><span class="hide-menu">Clientes</span></a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($_SESSION['acceso'] == 1) : ?>
+                    <li class="sidebar-item has-arrow">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                            <i class="fa fa-user-shield"></i><span class="hide-menu">Acceso</span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse first-level">
+                            <li class="sidebar-item"><a href="usuario.php" class="sidebar-link"><i class="fa fa-user"></i><span class="hide-menu">Usuarios</span></a></li>
+                            <li class="sidebar-item"><a href="permiso.php" class="sidebar-link"><i class="fa fa-lock"></i><span class="hide-menu">Permisos</span></a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($_SESSION['consultac'] == 1) : ?>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="comprasfecha.php" aria-expanded="false">
+                            <i class="fa fa-search-dollar"></i><span class="hide-menu">Consulta Compras</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($_SESSION['consultav'] == 1) : ?>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="ventasfechacliente.php" aria-expanded="false">
+                            <i class="fa fa-chart-line"></i><span class="hide-menu">Consulta Ventas</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false">
+                        <i class="fa fa-question-circle"></i><span class="hide-menu">Ayuda</span>
+                        <small class="label pull-right bg-red">PDF</small>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false">
+                        <i class="fa fa-info-circle"></i><span class="hide-menu">Acerca De...</span>
+                        <small class="label pull-right bg-yellow">DG</small>
+                    </a>
+                </li>
+
+            </ul>
+        </section>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
+

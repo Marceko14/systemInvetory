@@ -5,11 +5,11 @@ session_start();
 
 if (!isset($_SESSION["nombre"]))
 {
-  header("Location: login.html");
+  header("Location: login.php");
 }
 else
 {
-require 'header.php';
+require 'escritorio.php';
 
 if ($_SESSION['compras']==1)
 {
@@ -23,7 +23,7 @@ if ($_SESSION['compras']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Ingreso <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title right-align">Ingreso <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -179,8 +179,27 @@ else
   require 'noacceso.php';
 }
 
+
 require 'footer.php';
 ?>
+
+<style>
+  /* Alineación del botón a la derecha */
+.box-tools {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.box-tools .btn-success {
+    margin-left: 10px; /* Ajuste del espacio si lo necesitas */
+}
+
+/* CSS para mover el título a la derecha */
+.right-align {
+    text-align: right;
+}
+
+</style>
 <script type="text/javascript" src="scripts/ingreso.js"></script>
 <?php 
 }

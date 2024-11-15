@@ -9,7 +9,7 @@ if (!isset($_SESSION["nombre"]))
 }
 else
 {
-require 'header.php';
+require 'escritorio.php';
 if ($_SESSION['ventas']==1)
 {
 ?>
@@ -22,7 +22,7 @@ if ($_SESSION['ventas']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Cliente <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title right-align">Cliente <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -112,6 +112,46 @@ else
 }
 require 'footer.php';
 ?>
+<style>
+  /* Alineación del botón a la derecha */
+  .box-tools {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .box-tools .btn-success {
+    margin-left: 10px; /* Ajuste del espacio si lo necesitas */
+  }
+
+  /* CSS para mover el título a la derecha */
+  .right-align {
+    position: absolute;
+    left: 78%;
+    top: 15%;
+
+  }
+
+  /* Reducir el tamaño de los inputs */
+  .form-control {
+    font-size: 1rem; /* Tamaño de texto más grande */
+    width: 112%; /* Asegura que ocupen todo el ancho disponible */
+  }
+
+  /* Alineación de los inputs hacia la derecha */
+  .ml-auto {
+    margin-left: 60%;
+    width:70%;
+  }
+
+  /* Alineación de botones a la derecha */
+  .text-right {
+    text-align: right;
+  }
+  .panel-body{
+    margin-left: 500px;
+  }
+</style>
+
 <script type="text/javascript" src="scripts/cliente.js"></script>
 <?php 
 }
