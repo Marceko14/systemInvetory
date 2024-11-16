@@ -178,12 +178,19 @@ if ($_SESSION['ventas']==1)
 }
 else
 {
-  require 'noacceso.php';
+  require 'noacceso.aphp';
 }
 
 require 'footer.php';
 ?>
+
 <script type="text/javascript" src="scripts/venta.js"></script>
+<script type="text/javascript">
+        $(document).ready(function() {
+            // Inicialización de selectpicker
+            $('.selectpicker').selectpicker();
+        });
+    </script>
 <?php 
 }
 ob_end_flush();

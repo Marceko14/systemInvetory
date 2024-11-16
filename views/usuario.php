@@ -137,21 +137,44 @@ require 'footer.php';
 ?>
 <style>
   /* Alineación del botón a la derecha */
-.box-tools {
+  .box-tools {
     display: flex;
     justify-content: flex-end;
-}
+  }
 
-.box-tools .btn-success {
+  .box-tools .btn-success {
     margin-left: 10px; /* Ajuste del espacio si lo necesitas */
-}
+  }
 
-/* CSS para mover el título a la derecha */
-.right-align {
+  /* CSS para mover el título a la derecha */
+  .right-align {
+    position: absolute;
+    left: 78%;
+    top: 15%;
+
+  }
+
+  /* Reducir el tamaño de los inputs */
+  .form-control {
+    font-size: 1rem; /* Tamaño de texto más grande */
+    width: 112%; /* Asegura que ocupen todo el ancho disponible */
+  }
+
+  /* Alineación de los inputs hacia la derecha */
+  .ml-auto {
+    margin-left: 60%;
+    width:70%;
+  }
+
+  /* Alineación de botones a la derecha */
+  .text-right {
     text-align: right;
-}
-
+  }
+  .panel-body{
+    margin-left: 500px;
+  }
 </style>
+
 <script type="text/javascript" src="scripts/usuario.js"></script>
 <?php 
 }

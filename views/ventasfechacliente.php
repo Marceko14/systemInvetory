@@ -2,7 +2,7 @@
 //Activamos el almacenamiento en el buffer
 ob_start();
 session_start();
- 
+
 if (!isset($_SESSION["nombre"]))
 {
   header("Location: login.php");
@@ -10,7 +10,7 @@ if (!isset($_SESSION["nombre"]))
 else
 {
 require 'escritorio.php';
- 
+
 if ($_SESSION['consultav'] == 1)
 {
 ?>
@@ -23,26 +23,31 @@ if ($_SESSION['consultav'] == 1)
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box">
           <div class="box-header with-border">
-            <h1 class="box-title">Consulta de Ventas por Fecha y Cliente</h1>
-            <div class="box-tools pull-right"></div>
+            <h1 class="box-title text-end">Consulta de Ventas por Fecha y Cliente</h1>
           </div>
           <!-- /.box-header -->
           <!-- Centro -->
           <div class="panel-body table-responsive" id="listadoregistros">
-            <div class="form-group col-xs-12 col-sm-6 col-md-3 col-lg-3">
-              <label>Fecha Inicio</label>
-              <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" value="<?php echo date("Y-m-d"); ?>">
+            <!-- Filtros -->
+            <div class="row mb-3">
+              <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label for="fecha_inicio">Fecha Inicio</label>
+                <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" value="<?php echo date("Y-m-d"); ?>">
+              </div>
+              <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label for="fecha_fin">Fecha Fin</label>
+                <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="<?php echo date("Y-m-d"); ?>">
+              </div>
+              <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label for="idcliente">Cliente</label>
+                <div class="d-flex">
+                  <select name="idcliente" id="idcliente" class="form-control selectpicker me-2" data-live-search="true" required></select>
+                  <button class="btn btn-success" onclick="listar()">Mostrar</button>
+                </div>
+              </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-6 col-md-3 col-lg-3">
-              <label>Fecha Fin</label>
-              <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="<?php echo date("Y-m-d"); ?>">
-            </div>
-            <div class="form-inline col-xs-12 col-sm-12 col-md-6 col-lg-6">
-              <label>Cliente</label>
-              <select name="idcliente" id="idcliente" class="form-control selectpicker" data-live-search="true" required>
-              </select>
-              <button class="btn btn-success" onclick="listar()">Mostrar</button>
-            </div>
+
+            <!-- Tabla -->
             <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
               <thead>
                 <th>Fecha</th>
@@ -81,7 +86,6 @@ else
 {
   require 'noacceso.php';
 }
-
 ?>
 <script type="text/javascript" src="scripts/ventasfechacliente.js"></script>
 <?php 
