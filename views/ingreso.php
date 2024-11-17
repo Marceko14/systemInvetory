@@ -55,76 +55,81 @@ if ($_SESSION['compras']==1)
                           </tfoot>
                         </table>
                     </div>
-                    <div class="panel-body" style="height: 400px;" id="formularioregistros">
-                        <form name="formulario" id="formulario" method="POST">
-                          <div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <label>Proveedor(*):</label>
-                            <input type="hidden" name="idingreso" id="idingreso">
-                            <select id="idproveedor" name="idproveedor" class="form-control selectpicker" data-live-search="true" required>
-                              
-                            </select>
-                          </div>
-                          <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label>Fecha(*):</label>
-                            <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Tipo Comprobante(*):</label>
-                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" required="">
-                               <option value="Boleta">Boleta</option>
-                               <option value="Factura">Factura</option>
-                               <option value="Ticket">Ticket</option>
-                            </select>
-                          </div>
-                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Serie:</label>
-                            <input type="text" class="form-control" name="serie_comprobante" id="serie_comprobante" maxlength="7" placeholder="Serie">
-                          </div>
-                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Número:</label>
-                            <input type="text" class="form-control" name="num_comprobante" id="num_comprobante" maxlength="10" placeholder="Número" required="">
-                          </div>
-                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Impuesto:</label>
-                            <input type="text" class="form-control" name="impuesto" id="impuesto" required="">
-                          </div>
-                          <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <a data-toggle="modal" href="#myModal">           
-                              <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
-                            </a>
-                          </div>
+                    <div class="panel-body" style="height: 400px; display: flex; justify-content: flex-end;" id="formularioregistros">
+                        <form name="formulario" id="formulario" method="POST" style="width: 70%; text-align: left;">
+                            <div class="form-group">
+                                <label for="idproveedor">Proveedor(*):</label>
+                                <input type="hidden" name="idingreso" id="idingreso">
+                                <select id="idproveedor" name="idproveedor" class="form-control selectpicker" data-live-search="true" required>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="fecha_hora">Fecha(*):</label>
+                                <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tipo_comprobante">Tipo Comprobante(*):</label>
+                                <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" required>
+                                    <option value="Boleta">Boleta</option>
+                                    <option value="Factura">Factura</option>
+                                    <option value="Ticket">Ticket</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="serie_comprobante">Serie:</label>
+                                <input type="text" class="form-control" name="serie_comprobante" id="serie_comprobante" maxlength="7" placeholder="Serie">
+                            </div>
+                            <div class="form-group">
+                                <label for="num_comprobante">Número:</label>
+                                <input type="text" class="form-control" name="num_comprobante" id="num_comprobante" maxlength="10" placeholder="Número" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="impuesto">Impuesto:</label>
+                                <input type="text" class="form-control" name="impuesto" id="impuesto" required>
+                            </div>
+                            <div class="form-group">
+                                <a data-toggle="modal" href="#myModal">           
+                                    <button id="btnAgregarArt" type="button" class="btn btn-primary"> 
+                                        <span class="fa fa-plus"></span> Agregar Artículos
+                                    </button>
+                                </a>
+                            </div>
 
-                          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-                              <thead style="background-color:#A9D0F5">
-                                    <th>Opciones</th>
-                                    <th>Artículo</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio Compra</th>
-                                    <th>Precio Venta</th>
-                                    <th>Subtotal</th>
-                                </thead>
-                                <tfoot>
-                                    <th>TOTAL</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th><h4 id="total">S/. 0.00</h4><input type="hidden" name="total_compra" id="total_compra"></th> 
-                                </tfoot>
-                                <tbody>
-                                  
-                                </tbody>
-                            </table>
-                          </div>
+                            <!-- Tabla de detalles -->
+                            <div class="form-group">
+                                <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+                                    <thead style="background-color:#A9D0F5">
+                                        <tr>
+                                            <th>Opciones</th>
+                                            <th>Artículo</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio Compra</th>
+                                            <th>Precio Venta</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>TOTAL</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th><h4 id="total">S/. 0.00</h4><input type="hidden" name="total_compra" id="total_compra"></th> 
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                          <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
-
-                            <button id="btnCancelar" class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
-                          </div>
+                            <div class="form-group text-center">
+                                <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
+                                <button id="btnCancelar" class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
+                            </div>
                         </form>
                     </div>
+
                     <!--Fin centro -->
                   </div><!-- /.box -->
               </div><!-- /.col -->
@@ -139,7 +144,6 @@ if ($_SESSION['compras']==1)
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Seleccione un Artículo</h4>
         </div>
         <div class="modal-body">
@@ -196,7 +200,13 @@ require 'footer.php';
 
 /* CSS para mover el título a la derecha */
 .right-align {
-    text-align: right;
+    position: absolute;
+    left: 79%;
+    top:-2%;
+}
+
+.modal-content{
+  width: 150%;
 }
 
 </style>

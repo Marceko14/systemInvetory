@@ -120,14 +120,16 @@ require 'footer.php';
   }
 
   .box-tools .btn-success {
-    margin-left: 10px; /* Ajuste del espacio si lo necesitas */
+    position: absolute;
+    left: 82%;
+    top: -2%; /* Ajuste del espacio si lo necesitas */
   }
 
   /* CSS para mover el título a la derecha */
   .right-align {
     position: absolute;
-    left: 78%;
-    top: 15%;
+    left: 77%;
+    top: -2%;
 
   }
 
