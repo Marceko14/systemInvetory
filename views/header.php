@@ -30,9 +30,7 @@ if (strlen(session_id()) < 1)
                     <!-- ============================================================== -->
                     <!-- Botón para ocultar o mostrar el Sidebar -->
                     <!-- ============================================================== -->
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)" data-sidebartype="mini-sidebar" id="toggleSidebarBtn"><i class="mdi mdi-menu font-24"></i></a>
-                    </li>
+                    
                 </ul>
 
                 <!-- ============================================================== -->

@@ -1,0 +1,30 @@
+/* Estilo para la tabla */
+.panel-body{
+    width: 90%;
+  }
+  #tbllistado {
+    font-size: 15px; /* Reduce el tamaño del texto */
+  }
+
+  /* Hacer las celdas de la tabla más compactas */
+  #tbllistado th, #tbllistado td {
+    padding: 5px; /* Reduce el padding de las celdas */
+  }
+
+  /* Hacer las imágenes más pequeñas */
+  #tbllistado img {
+    width: 80px;
+    height: 60px;
+  }
+
+  /* Reducir el tamaño del contenedor, moverlo ligeramente a la derecha y ajustarlo verticalmente */
+  #listadoregistros {
+    max-width: 78%; /* Establecer el ancho máximo del contenedor al 70% */
+    margin: 50px auto; /* Centrar inicialmente */
+    transform: translateX(13%); /* Desplazar ligeramente a la derecha */
+  }
+
+  /* Estilo adicional para mejorar la apariencia de las celdas */
+  .table-condensed th, .table-condensed td {
+    padding: 3px 5px;
+  }

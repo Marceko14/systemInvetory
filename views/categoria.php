@@ -103,7 +103,7 @@ if (!isset($_SESSION["nombre"])) {
   .right-align {
     position: absolute;
     left: 78%;
-    top: 15%;
+    top: -2%;
 
   }
 
